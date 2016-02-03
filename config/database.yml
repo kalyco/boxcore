@@ -1,0 +1,32 @@
+default: &default
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  encoding: utf8
+
+development:
+  <<: *default
+  database: boxcore_development
+  host: localhost
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: boxcore_test
+  host: localhost
+
+production: &production
+  <<: *default
+  database: <%= ENV['RDS_DB_NAME'] %>
+  username: <%= ENV['RDS_USERNAME'] %>
+  password: <%= ENV['RDS_PASSWORD'] %>
+  host: <%= ENV['RDS_HOSTNAME'] %>
+  port: <%= ENV['RDS_PORT'] %>
+
+qa1:
+  <<: *production
+
+staging:
+  <<: *production
